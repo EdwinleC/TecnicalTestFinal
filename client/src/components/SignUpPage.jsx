@@ -8,18 +8,18 @@ const SignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Hook to navigate programmatically
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('data',email,password);
         try {
             const response = await axios.post('http://localhost:5000/api/auth/register', {
-                email, // Changed from username to email
+                email, 
                 password
             });
             console.log(response.data);
-            navigate('/login'); // Redirect to login page on successful signup
+            navigate('/login'); 
         } catch (err) {
             if (err.response && err.response.data) {
                 setError(err.response.data.error || 'Failed to register. Please try again.');

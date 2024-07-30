@@ -9,12 +9,12 @@ const MONGODB_URI = 'mongodb://localhost:27017/mydatabase';
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// User Schema and Model
+
 const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -22,7 +22,6 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
-// Task Schema and Model
 const TaskSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
@@ -33,7 +32,7 @@ const TaskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', TaskSchema);
 
-// Authentication routes
+
 app.post('/api/auth/register', async (req, res) => {
     const { email, password } = req.body;
 
@@ -69,8 +68,6 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        // For simplicity, we'll return a static token
-        const token = 'static-token'; // This should be replaced with a real token in a production app
         res.json({ token, userId: user._id });
     } catch (err) {
         console.error('Error during login:', err);
@@ -78,25 +75,25 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// Authentication middleware
+
 const authenticate = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Extract token from Authorization header
+    const token = authHeader && authHeader.split(' ')[1]; 
 
     if (!token) return res.status(401).json({ error: 'No token provided' });
 
-    // For demonstration purposes, we'll use a static token.
+
     if (token !== 'static-token') return res.status(401).json({ error: 'Invalid token' });
 
-    // Mock user ID for demonstration purposes
-    req.user = { _id: '64b1b9e8451e8d5c4d95e2b4' }; // Replace with actual user ID extraction logic
+
+    req.user = { _id: '64b1b9e8451e8d5c4d95e2b4' }; 
     next();
 };
 
-// Task routes
+
 app.post('/api/tasks', authenticate, async (req, res) => {
     const { name, description, status, dueDate } = req.body;
-    const userId = req.user._id; // Assuming user ID is set on req.user
+    const userId = req.user._id; 
 
     try {
         const task = new Task({ userId, name, description, status, dueDate });
@@ -109,7 +106,7 @@ app.post('/api/tasks', authenticate, async (req, res) => {
 });
 
 app.get('/api/tasks', authenticate, async (req, res) => {
-    const userId = req.user._id; // Assuming user ID is set on req.user
+    const userId = req.user._id; 
 
     try {
         const tasks = await Task.find({ userId });
@@ -121,7 +118,7 @@ app.get('/api/tasks', authenticate, async (req, res) => {
 });
 
 app.get('/api/tasks/:id', authenticate, async (req, res) => {
-    const userId = req.user._id; // Assuming user ID is set on req.user
+    const userId = req.user._id; 
     const { id } = req.params;
 
     try {
@@ -135,7 +132,7 @@ app.get('/api/tasks/:id', authenticate, async (req, res) => {
 });
 
 app.put('/api/tasks/:id', authenticate, async (req, res) => {
-    const userId = req.user._id; // Assuming user ID is set on req.user
+    const userId = req.user._id; 
     const { id } = req.params;
     const { name, description, status, dueDate } = req.body;
 
@@ -154,7 +151,7 @@ app.put('/api/tasks/:id', authenticate, async (req, res) => {
 });
 
 app.delete('/api/tasks/:id', authenticate, async (req, res) => {
-    const userId = req.user._id; // Assuming user ID is set on req.user
+    const userId = req.user._id; 
     const { id } = req.params;
 
     try {
@@ -167,7 +164,7 @@ app.delete('/api/tasks/:id', authenticate, async (req, res) => {
     }
 });
 
-// Start the server
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:5000`);
 });

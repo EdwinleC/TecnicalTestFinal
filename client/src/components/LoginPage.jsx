@@ -28,7 +28,7 @@ const LoginPage = () => {
             const result = await response.json();
 
             if (response.ok) {
-                // Store token in localStorage or handle it accordingly
+               
                 localStorage.setItem('token', result.token);
                 navigate('/home');
             } else {

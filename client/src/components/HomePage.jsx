@@ -156,7 +156,7 @@ const HomePage = () => {
                 </tbody>
             </Table>
 
-            {/* Add Task Modal */}
+            {}
             <Modal show={showAddModal} onHide={handleCloseAddModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Task</Modal.Title>
@@ -207,7 +207,7 @@ const HomePage = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Edit Task Modal */}
+            {}
             <Modal show={showEditModal} onHide={handleCloseEditModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Task</Modal.Title>
@@ -255,7 +255,7 @@ const HomePage = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Task Details Modal */}
+            {}
             <Modal show={showDetailsModal} onHide={handleCloseDetailsModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Task Details</Modal.Title>
